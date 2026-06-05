@@ -10,7 +10,7 @@ import pyassimp.postprocess
 
 # import optimesh
 import scipy
-from meshplex import MeshTri
+# meshplex import moved into _smooth_laplacian (lazy): no py3.10 wheel, only used by that optional fn
 from plyfile import PlyData, PlyElement
 from scipy.spatial.distance import pdist
 from skimage import measure
@@ -333,6 +333,7 @@ class Model3D:
                 iprint("Loading {} without any colors!!".format(filename))
 
     def _smooth_laplacian(self, vertices, faces, iterations):
+        from meshplex import MeshTri  # lazy: optional dep, no py3.10 wheel
         mesh = MeshTri(vertices, faces)
         # move interior points into average of their neighbors
         num_neighbors = np.zeros(len(mesh.node_coords), dtype=int)

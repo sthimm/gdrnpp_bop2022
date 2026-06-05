@@ -56,3 +56,5 @@ events.out.tfevents*
 /models
 
 #external/*
+
+.conda_env
