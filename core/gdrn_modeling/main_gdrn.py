@@ -118,7 +118,7 @@ def setup(args):
         cfg.DATALOADER.NUM_WORKERS = 0
         cfg.TRAIN.PRINT_FREQ = 1
     # register datasets
-    register_datasets_in_cfg(cfg)
+    register_datasets_in_cfg(cfg, eval_only=args.eval_only)
 
     exp_id = "{}".format(osp.splitext(osp.basename(args.config_file))[0])
 

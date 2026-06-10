@@ -77,7 +77,8 @@ def get_available_datasets(mod_name):
     return eval(mod_name).get_available_datasets()
 
 
-def register_datasets_in_cfg(cfg):
+def register_datasets_in_cfg(cfg, eval_only=False):
+    train_splits = {"TRAIN", "SS_TRAIN", "TRAIN_REAL", "TRAIN2", "TRAIN_SYN_SUP"}
     for split in [
         "TRAIN",
         "TEST",
@@ -87,6 +88,8 @@ def register_datasets_in_cfg(cfg):
         "TRAIN2",
         "TRAIN_SYN_SUP",
     ]:
+        if eval_only and split in train_splits:
+            continue
         for name in cfg.DATASETS.get(split, []):
             if name in DatasetCatalog.list():
                 continue

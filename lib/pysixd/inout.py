@@ -501,7 +501,9 @@ def load_ply(path, vertex_scale=1.0):
     - 'texture_uv_face' (mx6 ndarray), optional
     - 'texture_file' (string), optional
     """
-    if _is_binary(path):
+    with open(path, "rb") as _fcheck:
+        _header_bytes = _fcheck.read(512).decode("ascii", errors="ignore")
+    if "format binary" in _header_bytes:
         f = open(path, "rb")
     else:
         f = open(path, "r")

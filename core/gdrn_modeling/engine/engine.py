@@ -92,8 +92,11 @@ class GDRN_Lite(LightningLite):
             return LVISEvaluator(dataset_name, cfg, True, output_folder)
 
         _distributed = self.world_size > 1
-        dataset_meta = MetadataCatalog.get(cfg.DATASETS.TRAIN[0])
-        train_obj_names = dataset_meta.objs
+        _train_meta = MetadataCatalog.get(cfg.DATASETS.TRAIN[0])
+        if hasattr(_train_meta, "objs"):
+            train_obj_names = _train_meta.objs
+        else:
+            train_obj_names = MetadataCatalog.get(dataset_name).objs
         if evaluator_type == "bop":
             gdrn_eval_cls = GDRN_Evaluator if cfg.VAL.get("USE_BOP", False) else GDRN_EvaluatorCustom
             return gdrn_eval_cls(
@@ -122,8 +125,11 @@ class GDRN_Lite(LightningLite):
     def do_save_results(self, cfg, model, epoch=None, iteration=None):
         model_name = osp.basename(cfg.MODEL.WEIGHTS).split(".")[0]
 
-        dataset_meta = MetadataCatalog.get(cfg.DATASETS.TRAIN[0])
-        train_obj_names = dataset_meta.objs
+        _train_meta = MetadataCatalog.get(cfg.DATASETS.TRAIN[0])
+        if hasattr(_train_meta, "objs"):
+            train_obj_names = _train_meta.objs
+        else:
+            train_obj_names = MetadataCatalog.get(cfg.DATASETS.TEST[0]).objs
 
         for dataset_name in cfg.DATASETS.TEST:
             if epoch is not None and iteration is not None:

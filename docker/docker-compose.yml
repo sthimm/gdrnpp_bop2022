@@ -9,7 +9,7 @@ services:
     runtime: "nvidia"
     volumes:
       - "../../gdrnpp_bop2022:/gdrnpp_bop2022:rw"
-      - "/data/datasets/bop:/gdrnpp_bop2022/datasets/BOP_DATASETS:ro"
+      - "/data/datasets/bop:/gdrnpp_bop2022/datasets/BOP_DATASETS:rw"
       - "/data/models/gdrnpp:/gdrnpp_bop2022/output:rw"
       - "/data/tools/bop_renderer:/gdrnpp_bop2022/bop_renderer:ro"
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
